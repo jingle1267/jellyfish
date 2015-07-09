@@ -15,7 +15,7 @@
  *
  */
 
-package com.ihognqiqu.jellyfish.app.ui;
+package com.ihognqiqu.jellyfish.app.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;

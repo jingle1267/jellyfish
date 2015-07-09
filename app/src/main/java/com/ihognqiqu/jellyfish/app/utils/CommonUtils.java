@@ -15,36 +15,29 @@
  *
  */
 
-package com.ihognqiqu.jellyfish.app.base;
+package com.ihognqiqu.jellyfish.app.utils;
 
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Context;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 /**
- * Father activity.
+ * common utils
  *
- * Created by zhenguo on 2015/7/8.
+ * Created by rose on 2015/7/9.
  */
-public class BaseActivity extends ActionBarActivity {
+public class CommonUtils {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    /**
+     * 获取屏幕的大小
+     * @param context
+     * @return
+     */
+    public static DisplayMetrics getScreenPix(Context context) {
+        DisplayMetrics dm = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(dm);
+        return dm;
     }
 
 }

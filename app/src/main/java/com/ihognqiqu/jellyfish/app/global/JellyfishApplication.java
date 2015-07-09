@@ -20,12 +20,12 @@ package com.ihognqiqu.jellyfish.app.global;
 import android.app.Application;
 import android.graphics.PixelFormat;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
-import android.view.View;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.ImageView;
 import com.ihognqiqu.jellyfish.app.R;
-import com.ihognqiqu.jellyfish.app.ui.MainActivity;
+import com.ihognqiqu.jellyfish.app.ui.activity.MainActivity;
+import com.ihognqiqu.jellyfish.app.ui.listener.GestureListener;
+import com.ihognqiqu.jellyfish.app.utils.DisplayUtil;
 
 /**
  * Global settings.
@@ -37,6 +37,13 @@ public class JellyfishApplication extends Application {
     private WindowManager windowManager;
     private WindowManager.LayoutParams layoutParams;
     private ImageView imageView;
+    private GestureDetector gestureDetector;
+
+    private int width, height;
+    private int viewWidth = 87, viewHeight = 87;
+    private int statusBarHeight = 0;
+    private float rawX, rawY;
+    private float x, y;
 
     @Override
     public void onCreate() {
@@ -73,6 +80,66 @@ public class JellyfishApplication extends Application {
             public void onClick(View v) {
                 MainActivity.launch(v.getContext());
             }
+        });
+
+        statusBarHeight = DisplayUtil.getStatusBarHeight(getApplicationContext());
+        viewWidth = DisplayUtil.dip2px(getApplicationContext(), 87 / 2);
+        viewHeight = DisplayUtil.dip2px(getApplicationContext(), 87 / 2);
+        width = displayMetrics.widthPixels;
+        height = displayMetrics.heightPixels;
+
+        gestureDetector = new GestureDetector(this, new GestureListener(getApplicationContext()));
+        imageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                rawX = event.getRawX();
+                rawY = event.getRawY();
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        x = event.getX();
+                        y = event.getY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        updatePosition();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        updatePosition();
+                        // if (SettingHelper.getAutoAlign(getApplicationContext())) {
+                            autoMove();
+                        // }
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                        break;
+                    case MotionEvent.ACTION_OUTSIDE:
+                        break;
+                    default:
+                        break;
+                }
+                return gestureDetector.onTouchEvent(event);
+            }
+
+            private void updatePosition() {
+                layoutParams.x = (int) rawX - width / 2 - (int) x + viewWidth / 2;
+                layoutParams.y = (int) rawY - height / 2 - (int) y + viewHeight / 2
+                        - statusBarHeight / 2;
+
+                windowManager.updateViewLayout(imageView, layoutParams);
+            }
+
+            private void autoMove() {
+                while (true) {
+                    if (layoutParams.x <= 0 && layoutParams.x > -width / 2 + 5) {
+                        layoutParams.x = layoutParams.x - 5;
+                        windowManager.updateViewLayout(imageView, layoutParams);
+                    } else if (layoutParams.x > 0 && layoutParams.x < width / 2 - 5) {
+                        layoutParams.x = layoutParams.x + 5;
+                        windowManager.updateViewLayout(imageView, layoutParams);
+                    } else {
+                        break;
+                    }
+                }
+            }
+
         });
     }
 
