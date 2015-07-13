@@ -17,15 +17,15 @@
 
 package com.ihognqiqu.jellyfish.app.base;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 /**
  * Father activity.
  *
  * Created by zhenguo on 2015/7/8.
  */
-public class BaseActivity extends ActionBarActivity {
+public class BaseActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

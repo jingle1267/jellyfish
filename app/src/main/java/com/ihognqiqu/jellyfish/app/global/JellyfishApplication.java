@@ -57,14 +57,15 @@ public class JellyfishApplication extends Application {
                 .getSystemService(WINDOW_SERVICE);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        int widgetSize = displayMetrics.widthPixels / 6;
 
         layoutParams = new WindowManager.LayoutParams();
         layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
         layoutParams.format = PixelFormat.RGBA_8888;
         layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        layoutParams.width = 120;
-        layoutParams.height = 120;
+        layoutParams.width = widgetSize; // 120
+        layoutParams.height = widgetSize; // 120
         layoutParams.gravity = Gravity.CENTER;
         layoutParams.x = 0;
         layoutParams.y = 0;
