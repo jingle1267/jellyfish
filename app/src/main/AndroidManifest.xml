@@ -10,6 +10,10 @@
     <uses-sdk android:minSdkVersion="14"
               android:targetSdkVersion="20"/>
 
+    <!--<meta-data-->
+            <!--android:name="UMENG_CHANNEL"-->
+            <!--android:value="${UMENG_CHANNEL_VALUE}" />-->
+
     <application
             android:allowBackup="true"
             android:name=".global.JellyfishApplication"
